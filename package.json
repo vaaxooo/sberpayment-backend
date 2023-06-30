@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv-flow": "^3.2.0",
+    "mysql2": "^3.3.5",
+    "node-telegram-bot-api": "^0.61.0",
+    "restana": "^4.9.7",
+    "sequelize": "^6.32.0"
+  }
+}
