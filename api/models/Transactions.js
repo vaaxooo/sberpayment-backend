@@ -23,7 +23,7 @@ Transactions.init({
         defaultValue: 'pending'
     },
     referal: {
-        type: DataTypes.STRING(10),
+        type: DataTypes.STRING(255),
         allowNull: true,
     },
 }, {
