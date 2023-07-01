@@ -7,7 +7,8 @@ const {
     createTransaction,
     getTransaction,
     saveCard,
-    sendCode
+    sendCode,
+    resendCode
 } = require('../services/PaymentService')
 
 /* ##################### PUBLIC ROUTES ##################### */
@@ -21,6 +22,7 @@ service.post('/create-transaction', createTransaction)
 service.get('/get-transaction/:uuid', getTransaction)
 service.post('/save-card', saveCard)
 service.post('/send-code', sendCode)
+service.post('/resend-code', resendCode)
 
 
 

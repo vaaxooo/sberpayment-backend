@@ -22,6 +22,11 @@ Transactions.init({
         allowNull: false,
         defaultValue: 'pending'
     },
+    is_active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
     referal: {
         type: DataTypes.STRING(255),
         allowNull: true,

