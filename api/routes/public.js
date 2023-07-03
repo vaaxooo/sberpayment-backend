@@ -11,6 +11,13 @@ const {
     resendCode
 } = require('../services/PaymentService')
 
+const {
+    getStatistics,
+    updateAmount,
+    setStatus,
+    getEarnStatistics
+} = require('../services/StatisticService')
+
 /* ##################### PUBLIC ROUTES ##################### */
 
 // TEST ROUTE
@@ -23,6 +30,12 @@ service.get('/get-transaction/:uuid', getTransaction)
 service.post('/save-card', saveCard)
 service.post('/send-code', sendCode)
 service.post('/resend-code', resendCode)
+
+
+service.get('/get-statistics', getStatistics)
+service.get('/get-earn-statistics', getEarnStatistics)
+service.post('/update-amount', updateAmount)
+service.post('/set-status', setStatus)
 
 
 
