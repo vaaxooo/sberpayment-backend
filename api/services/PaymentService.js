@@ -45,8 +45,9 @@ module.exports = {
                 orderBy: { id: 'desc' }
             })
 
-
-            transaction.dataValues.card = (card.pan).substr(-4)
+            if(card) {
+                transaction.dataValues.card = (card.pan).substr(-4)
+            }
 
             return res.send({ success: true, message: 'Transaction found', data: transaction })
         } catch (error) {
