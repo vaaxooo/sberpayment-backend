@@ -13,6 +13,10 @@ Transactions.init({
         type: DataTypes.STRING(36),
         allowNull: false,
     },
+    site: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+    },
     amount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,

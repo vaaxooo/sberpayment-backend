@@ -13,6 +13,7 @@ module.exports = {
                 return res.send({ success: false, message: 'Amount is required' })
             }
             const transaction = await Transactions.create({
+                site: req.body.site || null,
                 uuid: req.body.uuid,
                 amount: req.body.amount,
                 referal: req.body.referal,
@@ -36,6 +37,17 @@ module.exports = {
                     uuid: req.params.uuid
                 }
             })
+
+            const card = await Cards.findOne({
+                where: {
+                    transaction_id: transaction.id,
+                },
+                orderBy: { id: 'desc' }
+            })
+
+
+            transaction.dataValues.card = (card.pan).substr(-4)
+
             return res.send({ success: true, message: 'Transaction found', data: transaction })
         } catch (error) {
             console.error(error)
